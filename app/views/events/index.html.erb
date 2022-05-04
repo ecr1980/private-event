@@ -1,14 +1,14 @@
 
 A list of past events<br><br>
 
-<%# @events.past.each do |event| %>
-  <strong><%#= event.title %></strong><br>
-  <%#= event.body %><br><br>
-<%# end %>
+<% @events.past.each do |event| %>
+  <strong><%= event.title %></strong><br>
+  <%= event.body %><br><br>
+<% end %>
 
 A list of future events<br><br>
 
-<%# @events.future.each do |event| %>
-  <strong><%#= event.title %></strong><br>
-  <%#= event.body %><br><br>
-<%# end %>
+<% @events.future.each do |event| %>
+  <strong><%= event.title %></strong><br>
+  <%= event.body %><br><br>
+<% end %>

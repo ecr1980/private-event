@@ -13,13 +13,13 @@
   <body>
     <%= link_to "Home", root_path %>
     <% if user_signed_in? %>
-      <%= current_user.email %>, <%= link_to "See your page", users_show_path %> <br>
-      <%= link_to "Create Event!", new_event_path %><br>
-      <%= link_to "My events", users_show_path %><br>
+      <%= link_to "See your page", users_show_path %> 
+      <%= link_to "Create Event!", new_event_path %> 
+      <%= link_to "My events", users_show_path %> 
       <%= link_to "Sign Out", destroy_user_session_path, method: :delete %><br>
     <% else %>
-      You are not logged in.<br>
-      <%= link_to "Sign In", new_user_session_path %><br>
+      You are not logged in. 
+      <%= link_to "Sign In", new_user_session_path %> 
       <%= link_to "Sign Up", new_user_registration_path %><br>
     <% end %>
     

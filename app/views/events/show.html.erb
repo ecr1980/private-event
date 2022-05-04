@@ -1,7 +1,7 @@
 <% if (@event.attendees.include? current_user) || (@event.creator == current_user) %>
   <h1><%= @event.creator.email %>'s event:</h1><br><br>
   <strong><%= @event.title %></strong><br>
-  <%= @event.when %><br>
+  <%= @event.happens %><br>
   <%= @event.body %><br><br>
   <% if @event.attendees.include? current_user %>
     You're invited!<br>
