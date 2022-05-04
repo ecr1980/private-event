@@ -1,0 +1,33 @@
+
+
+<h3>Your events!</h3><br><br>
+
+<% current_user.events.each do |event| %>
+<strong><%= event.title %></strong><br>
+<%= event.body%><br>
+<%= link_to "Event page", show_event_path(event) %><br><br>
+<% end %>
+<br>
+<br>
+
+<h3>Your Invitations!</h3><br><br>
+<h4>Your Past Invitations</h4>
+<% current_user.attended_events.each do |event| %>
+  <% if event.when <= Time.current %>
+    <strong><%= event.title %></strong><br>
+    <%= event.when %>
+    <%= event.body%><br>
+    <%= link_to "Event page", show_event_path(event) %><br><br>
+  <% end %>
+<% end %>
+<h4>Your Upcoming Invitations</h4>
+<% current_user.attended_events.each do |event| %>
+  <% if event.when > Time.current %>
+    <strong><%= event.title %></strong><br>
+    <%= event.when %>
+    <%= event.body%><br>
+    <%= link_to "Event page", show_event_path(event) %><br><br>
+  <% end %>
+<% end %>
+<br>
+<br>

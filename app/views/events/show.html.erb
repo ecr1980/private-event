@@ -1,0 +1,71 @@
+<% if (@event.attendees.include? current_user) || (@event.creator == current_user) %>
+  <h1><%= @event.creator.email %>'s event:</h1><br><br>
+  <strong><%= @event.title %></strong><br>
+  <%= @event.when %><br>
+  <%= @event.body %><br><br>
+  <% if @event.attendees.include? current_user %>
+    You're invited!<br>
+    <% @event.invites.where(attendee_id: current_user.id).each do |invite| %>
+      <% if invite.attending == true %>
+        You've accepted this invitation.
+        <%= form_with model: @invite do |f| %>
+          <%= f.hidden_field :invite_id, :value => invite.id %>
+          <%= f.hidden_field :accepting, :value => false %>
+          <%= button_to "Decline", update_invite_path, method: :put %>
+        <% end %>
+      <% elsif invite.attending == false %>
+        You've declined this invitation.
+        <%= form_with model: @invite do |f| %>
+          <%= f.hidden_field :invite_id, :value => invite.id %>
+          <%= f.hidden_field :accepting, :value => true %>
+          <%= button_to "Accept", update_invite_path, method: :put %>
+        <% end %>
+      <% else %>
+        Would you like to go?
+        <%= form_with model: @invite do |f| %>
+          <%= f.hidden_field :invite_id, :value => invite.id %>
+          <%= f.hidden_field :accepting, :value => true %>
+          <%= button_to "Accept", update_invite_path, method: :put %>
+        <% end %>
+        <%= form_with model: @invite do |f| %>
+          <%= f.hidden_field :invite_id, :value => invite.id %>
+          <%= f.hidden_field :accepting, :value => false %>
+          <%= button_to "Decline", update_invite_path, method: :put %>
+        <% end %> 
+      <% end %>
+    <% end %>
+  <% elsif @event.creator == current_user %>
+    <strong>The list of people you can invite:</strong>
+    <br>
+    <br>
+    <% @users.each do |user| %>
+      <% unless (user == current_user) || (@event.attendees.include? user) %>
+        <%= user.email %><br>
+        <%= form_with model: @invite do |f| %>
+          <%= f.hidden_field :event_id, :value => @event.id %>
+          <%= f.hidden_field :creator_id, :value => current_user.id %>
+          <%= f.hidden_field :attendee_id, :value => user.id %>
+          <%= button_to "Invite", invites_path, method: :post %>
+        <% end %>
+        <br>
+      <% end %>
+    <% end %>
+    <br>
+    <strong>The list of people you've invited:</strong><br><br>
+    <% @event.invites.each do |invite|%>
+      <%= invite.attendee.email %><br>
+      <% if invite.attending == true %>
+        <em>Attending</em>
+      <% elsif invite.attending == false %>
+        <em>Declined</em>
+      <% else %>
+        <em>Pending</em>
+      <% end %>
+      <br><br>
+    <% end %>
+  <% end %>
+  <br>
+  <br>
+<% else %>
+Hmmm, you don't seem to be a part of this event.<br>
+<% end %>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PrivateEvents</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= link_to "Home", root_path %>
+    <% if user_signed_in? %>
+      <%= current_user.email %>, <%= link_to "See your page", users_show_path %> <br>
+      <%= link_to "Create Event!", new_event_path %><br>
+      <%= link_to "My events", users_show_path %><br>
+      <%= link_to "Sign Out", destroy_user_session_path, method: :delete %><br>
+    <% else %>
+      You are not logged in.<br>
+      <%= link_to "Sign In", new_user_session_path %><br>
+      <%= link_to "Sign Up", new_user_registration_path %><br>
+    <% end %>
+    
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <%= yield %>
+  </body>
+</html>
